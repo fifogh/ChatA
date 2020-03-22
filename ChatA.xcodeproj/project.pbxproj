@@ -13,6 +13,8 @@
 		A563A57A2418076D005C1291 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A563A5782418076D005C1291 /* Main.storyboard */; };
 		A563A57C2418076E005C1291 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A563A57B2418076E005C1291 /* Assets.xcassets */; };
 		A563A57F2418076E005C1291 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A563A57D2418076E005C1291 /* LaunchScreen.storyboard */; };
+		A563A587241BE658005C1291 /* chat.txt in Resources */ = {isa = PBXBuildFile; fileRef = A563A586241BE658005C1291 /* chat.txt */; };
+		A563A5892422C313005C1291 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = A563A5882422C313005C1291 /* Chat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		A563A57B2418076E005C1291 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A563A57E2418076E005C1291 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A563A5802418076E005C1291 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A563A586241BE658005C1291 /* chat.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chat.txt; sourceTree = "<group>"; };
+		A563A5882422C313005C1291 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 		A563A5712418076D005C1291 /* ChatA */ = {
 			isa = PBXGroup;
 			children = (
+				A563A5882422C313005C1291 /* Chat.swift */,
+				A563A586241BE658005C1291 /* chat.txt */,
 				A563A5722418076D005C1291 /* AppDelegate.swift */,
 				A563A5742418076D005C1291 /* SceneDelegate.swift */,
 				A563A5762418076D005C1291 /* ViewController.swift */,
@@ -127,6 +133,7 @@
 			files = (
 				A563A57F2418076E005C1291 /* LaunchScreen.storyboard in Resources */,
 				A563A57C2418076E005C1291 /* Assets.xcassets in Resources */,
+				A563A587241BE658005C1291 /* chat.txt in Resources */,
 				A563A57A2418076D005C1291 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A563A5772418076D005C1291 /* ViewController.swift in Sources */,
+				A563A5892422C313005C1291 /* Chat.swift in Sources */,
 				A563A5732418076D005C1291 /* AppDelegate.swift in Sources */,
 				A563A5752418076D005C1291 /* SceneDelegate.swift in Sources */,
 			);
