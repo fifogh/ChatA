@@ -9,15 +9,19 @@
 import UIKit
 import Foundation
 
+import Zip
 
 
+var userL   : Array <User>  = Array()
+var chatL   : Array <Chat>  = Array()
+var blockL  : Array <Block> = Array()
 
-var memberL    : Array < Member >  = Array()
-var chatL      : Array <Chat>   = Array()
+
+let chatAnalyzer  = ChatAnalyzer ()
+let userAnalyzer  = UserAnalyzer()
+let blockAnalyzer = BlockAnalyzer()
 
 
-let chatAnalyzer   = ChatAnalyzer ()
-let memberAnalyzer = MemberAnalyzer()
 
 extension String
 {
@@ -48,17 +52,17 @@ class ViewController: UIViewController {
 
     @IBAction func buttonPresse(_ sender: Any) {
 
-       
-        
-        chatAnalyzer.chatExtract (theChatFile: "chat")
-        chatAnalyzer.setTimeDiff ()
+        if (chatAnalyzer.chatExtract (theChatFile: "chat") == true ){
+            
+            chatAnalyzer.setTimeDiff ()
+            userAnalyzer.createList  ()
 
-       // memberList.createList ()
-        memberAnalyzer.createList ()
-
-        chatAnalyzer.printChat ()
-
+            chatAnalyzer.printChat ()
+            blockAnalyzer.createBlockList()
+        } else {
+            print (" failed Extraction")
+        }
 
     }
- 
+
 }

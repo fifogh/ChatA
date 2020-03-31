@@ -1,5 +1,5 @@
 //
-//  Member.swift
+//  User.swift
 //  ChatA
 //
 //  Created by Philippe Faurie on 3/25/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Member {
+class User {
     var name        : String
     var msgNumber   : Int
     //var msgLen      : [Int]
@@ -26,45 +26,38 @@ class Member {
 }
 
 
-class MemberAnalyzer {
-/*
- var  memberL : [Member]
-    
-    init () {
-        memberL = Array()
-    }
-*/
+class UserAnalyzer {
+
     //---------------------------------------------------------------
-    // func giveMember
+    // func giveUser
     //      return member in list if found create it if not found
     
-    func giveMember (theName: String) -> Member {
+    func giveUser (theName: String) -> User {
         
-        var returnMember : Member
-        if let member = memberL.first(where: {$0.name == theName}) {
-            returnMember = member
+        var returnUser : User
+        if let user = userL.first(where: {$0.name == theName}) {
+            returnUser = user
         
         } else {
            //item could not be found
-            returnMember = Member (theName: theName )
-            memberL.append ( returnMember )
+            returnUser = User (theName: theName )
+            userL.append ( returnUser )
         }
-        return(returnMember)
+        return(returnUser)
     }
-    
     
     func createList () {
         
         for chat in chatL {
            // let member = memberList.giveMember (theName: chat.name)
-            let member = memberAnalyzer.giveMember (theName: chat.name)
+            let user = userAnalyzer.giveUser (theName: chat.name)
 
             // first stats on member
-            member.msgNumber += 1
-            member.totalLen += Double(chat.msg.count)
+            user.msgNumber += 1
+            user.totalLen += Double(chat.msg.count)
             
             if chat.containMedia(){
-                member.mediaNumber += 1
+                user.mediaNumber += 1
             }
             
         }

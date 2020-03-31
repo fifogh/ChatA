@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,10 +13,12 @@
 		A563A57A2418076D005C1291 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A563A5782418076D005C1291 /* Main.storyboard */; };
 		A563A57C2418076E005C1291 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A563A57B2418076E005C1291 /* Assets.xcassets */; };
 		A563A57F2418076E005C1291 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A563A57D2418076E005C1291 /* LaunchScreen.storyboard */; };
-		A563A587241BE658005C1291 /* chat.txt in Resources */ = {isa = PBXBuildFile; fileRef = A563A586241BE658005C1291 /* chat.txt */; };
+		A563A587241BE658005C1291 /* chat0.txt in Resources */ = {isa = PBXBuildFile; fileRef = A563A586241BE658005C1291 /* chat0.txt */; };
 		A563A5892422C313005C1291 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = A563A5882422C313005C1291 /* Chat.swift */; };
 		A563A58B242AE188005C1291 /* Blocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = A563A58A242AE188005C1291 /* Blocks.swift */; };
-		A563A58D242BA4BD005C1291 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = A563A58C242BA4BD005C1291 /* Member.swift */; };
+		A563A58F242C1C5C005C1291 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A563A58E242C1C5C005C1291 /* User.swift */; };
+		A563A59224317FE5005C1291 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = A563A59124317FE5005C1291 /* Zip */; };
+		A563A594243180C5005C1291 /* chat.zip in Resources */ = {isa = PBXBuildFile; fileRef = A563A593243180C5005C1291 /* chat.zip */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,10 +30,11 @@
 		A563A57B2418076E005C1291 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A563A57E2418076E005C1291 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A563A5802418076E005C1291 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A563A586241BE658005C1291 /* chat.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chat.txt; sourceTree = "<group>"; };
+		A563A586241BE658005C1291 /* chat0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chat0.txt; sourceTree = "<group>"; };
 		A563A5882422C313005C1291 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		A563A58A242AE188005C1291 /* Blocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blocks.swift; sourceTree = "<group>"; };
-		A563A58C242BA4BD005C1291 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
+		A563A58E242C1C5C005C1291 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		A563A593243180C5005C1291 /* chat.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = chat.zip; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A563A59224317FE5005C1291 /* Zip in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,13 +69,14 @@
 			isa = PBXGroup;
 			children = (
 				A563A5882422C313005C1291 /* Chat.swift */,
-				A563A58C242BA4BD005C1291 /* Member.swift */,
+				A563A58E242C1C5C005C1291 /* User.swift */,
 				A563A58A242AE188005C1291 /* Blocks.swift */,
 				A563A5762418076D005C1291 /* ViewController.swift */,
 				A563A5722418076D005C1291 /* AppDelegate.swift */,
 				A563A5742418076D005C1291 /* SceneDelegate.swift */,
 				A563A5782418076D005C1291 /* Main.storyboard */,
-				A563A586241BE658005C1291 /* chat.txt */,
+				A563A593243180C5005C1291 /* chat.zip */,
+				A563A586241BE658005C1291 /* chat0.txt */,
 				A563A57B2418076E005C1291 /* Assets.xcassets */,
 				A563A57D2418076E005C1291 /* LaunchScreen.storyboard */,
 				A563A5802418076E005C1291 /* Info.plist */,
@@ -95,6 +100,9 @@
 			dependencies = (
 			);
 			name = ChatA;
+			packageProductDependencies = (
+				A563A59124317FE5005C1291 /* Zip */,
+			);
 			productName = ChatA;
 			productReference = A563A56F2418076D005C1291 /* ChatA.app */;
 			productType = "com.apple.product-type.application";
@@ -123,6 +131,9 @@
 				Base,
 			);
 			mainGroup = A563A5662418076D005C1291;
+			packageReferences = (
+				A563A59024317FE5005C1291 /* XCRemoteSwiftPackageReference "Zip" */,
+			);
 			productRefGroup = A563A5702418076D005C1291 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,9 +148,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A563A594243180C5005C1291 /* chat.zip in Resources */,
 				A563A57F2418076E005C1291 /* LaunchScreen.storyboard in Resources */,
 				A563A57C2418076E005C1291 /* Assets.xcassets in Resources */,
-				A563A587241BE658005C1291 /* chat.txt in Resources */,
+				A563A587241BE658005C1291 /* chat0.txt in Resources */,
 				A563A57A2418076D005C1291 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,11 +164,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A563A5772418076D005C1291 /* ViewController.swift in Sources */,
-				A563A58D242BA4BD005C1291 /* Member.swift in Sources */,
 				A563A5892422C313005C1291 /* Chat.swift in Sources */,
 				A563A58B242AE188005C1291 /* Blocks.swift in Sources */,
 				A563A5732418076D005C1291 /* AppDelegate.swift in Sources */,
 				A563A5752418076D005C1291 /* SceneDelegate.swift in Sources */,
+				A563A58F242C1C5C005C1291 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +364,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A563A59024317FE5005C1291 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A563A59124317FE5005C1291 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A563A59024317FE5005C1291 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A563A5672418076D005C1291 /* Project object */;
 }

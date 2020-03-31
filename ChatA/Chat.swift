@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import Zip
 
+let fileManager = FileManager.default
 
 class Chat {
     
@@ -70,37 +72,66 @@ class Chat {
 
 class ChatAnalyzer {
     
+    var path: URL
+    
+    init () {
+        let documentsUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
+        path = documentsUrl
+    }
+    
     //---------------------------------------------------------------
     // func chatExtract
     //      Create a chatList from exported file
     
-    func chatExtract(theChatFile: String){
+    func chatExtract(theChatFile: String)-> Bool{
+      
+        var unzipDirectory      : URL
+        var directoryPathStr    : String
+        var retValue = false
         
-       if let filepath = Bundle.main.path(forResource: theChatFile, ofType: "txt") {
-           do {
-               let contents = try String(contentsOfFile: filepath)
-               let array = contents.components(separatedBy: "\r\n")
-               print (array.count)
-            
-               for elem in array {
-                 if elem.count != 0 {
-                    
-                    // add Chat
-                    let (dateStr, date, name, msg) = parseLine (toParse :elem)
-                    let chat = Chat (theDateStr: dateStr, theDate: date, theName: name, theMsg: msg)
-                    chatL.append (chat)
-            
-                    }
-                 }
-            
-           } catch {
-               // contents could not be loaded
-               print("No Content")
-           }
-       } else {
-            // example.txt not found!
-            print("file Not Found")
-       }
+        do {
+            if let filePath = Bundle.main.url(forResource: theChatFile, withExtension: "zip"){
+               unzipDirectory = try Zip.quickUnzipFile(filePath)
+               do{
+                   directoryPathStr = unzipDirectory.path
+                   let items = try fileManager.contentsOfDirectory(atPath: directoryPathStr)
+                
+                   // loop on items if several files in dir
+                   let pathURL = unzipDirectory.appendingPathComponent(items[0])
+                   do {
+                       let contents = try String(contentsOf:pathURL)
+                       splitContent(theContent:contents)
+                       retValue = true
+                   } catch {
+                  print( "fail to convert to String")
+                   }
+                
+               } catch {
+                   print( "fail to locate directory")
+               }
+                
+            } else {
+                print ("file not found")
+            }
+        } catch {
+            print ("Fail to unzip")
+        }
+        return(retValue)
+    }
+    
+    func splitContent(theContent: String){
+        let array = theContent.components(separatedBy: "\r\n")
+        print (array.count)
+        
+        for elem in array {
+            if elem.count != 0 {
+                // add Chat
+                let (dateStr, date, name, msg) = parseLine (toParse :elem)
+                let chat = Chat (theDateStr: dateStr, theDate: date, theName: name, theMsg: msg)
+                chatL.append (chat)
+        
+             }
+        }
     }
     
 
@@ -167,10 +198,24 @@ class ChatAnalyzer {
     func setTimeDiff (){
            
            var prevChat = Chat (theDateStr: "01/01/00 00:00:01 AM", theDate:Date(), theName: "", theMsg: "")
-           
+           var index = 0
+        
+           var subMsg : String
+ 
            for chat in chatL{
              chat.timeDiff = chat.timeElapsed (fromDateStr: prevChat.dateStr)
              prevChat = chat
+            
+            let len = min ( chat.msg.count, 25)
+            
+            subMsg = String( chat.msg.prefix (len))
+            
+            if ( chat.timeDiff > timeBetweenBlocks) {
+                print ( "\(index) - elapsed: \(chat.timeDiff) ---<<<<  \(subMsg) ")
+            } else {
+                print ( "\(index) - elapsed: \(chat.timeDiff)")
+            }
+             index = index + 1
            }
        }
     
@@ -181,7 +226,7 @@ class ChatAnalyzer {
         print ("Chat Numnber :")
         print (chatL.count)
         
-        for elem in memberL {
+        for elem in userL {
                    let str = elem.name + " number: \(elem.msgNumber)" + " total: \(elem.totalLen)" + " mdeiaNumber : \(elem.mediaNumber)"
                    print (str)
                }
@@ -191,7 +236,7 @@ class ChatAnalyzer {
             print (msg)
         }
         
-         test()
+       //  test()
     }
     
     
