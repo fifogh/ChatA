@@ -32,6 +32,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
+    func application(
+      _ app: UIApplication,
+      open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+      ) -> Bool {
+      // 1
+      guard url.pathExtension == "zip" else { return false }
+
+      // 2
+        /*
+      Book.importData(from: url)
+
+      // 3
+      guard
+        let navigationController = window?.rootViewController as? UINavigationController,
+        let bookTableViewController = navigationController.viewControllers
+          .first as? BooksTableViewController
+        else { return true }
+
+      // 4
+      bookTableViewController.tableView.reloadData()
+ */
+      return true
+    }
 
 }
 
