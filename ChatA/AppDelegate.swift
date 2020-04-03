@@ -31,16 +31,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
+/*
     func application(
       _ app: UIApplication,
       open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]
       ) -> Bool {
       // 1
-      guard url.pathExtension == "zip" else { return false }
+        guard url.pathExtension == "zip" else {
+            print ("not ZIp")
+            print (url)
+            return false }
 
       // 2
-        /*
+        chatAnalyzer.getChat (theUrl: url)
+  
       Book.importData(from: url)
 
       // 3
@@ -52,9 +56,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
       // 4
       bookTableViewController.tableView.reloadData()
- */
+
       return true
     }
+*/
 
 }
 

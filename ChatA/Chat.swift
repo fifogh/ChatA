@@ -79,18 +79,33 @@ class ChatAnalyzer {
         path = documentsUrl
     }
     
+    func getChat ( theUrl: URL) {
+    
+        chatExtract ( theChatFile: theUrl)
+        do {
+        try fileManager.removeItem (at: theUrl)
+            print ("url deleted")
+        }
+        catch {
+            print ("cannot remove url")
+        }
+
+    }
     //---------------------------------------------------------------
     // func chatExtract
     //      Create a chatList from exported file
     
-    func chatExtract(theChatFile: String)-> Bool{
-      
+    //func chatExtract(theChatFile: String)-> Bool{
+    func chatExtract(theChatFile: URL)-> Bool{
+
         var unzipDirectory      : URL
         var directoryPathStr    : String
         var retValue = false
         
         do {
-            if let filePath = Bundle.main.url(forResource: theChatFile, withExtension: "zip"){
+//if let filePath = Bundle.main.url(forResource: theChatFile, withExtension: "zip"){
+            let filePath = theChatFile
+            if (true){
                unzipDirectory = try Zip.quickUnzipFile(filePath)
                do{
                    directoryPathStr = unzipDirectory.path

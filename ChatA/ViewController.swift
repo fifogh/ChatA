@@ -52,6 +52,7 @@ class ViewController: UIViewController {
 
     @IBAction func buttonPresse(_ sender: Any) {
 
+        /*
         if (chatAnalyzer.chatExtract (theChatFile: "chat") == true ){
             
             chatAnalyzer.setTimeDiff ()
@@ -62,7 +63,7 @@ class ViewController: UIViewController {
         } else {
             print (" failed Extraction")
         }
-
+      */
     }
 
 }

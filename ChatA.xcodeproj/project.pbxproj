@@ -123,7 +123,7 @@
 				};
 			};
 			buildConfigurationList = A563A56A2418076D005C1291 /* Build configuration list for PBXProject "ChatA" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
