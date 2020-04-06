@@ -46,6 +46,10 @@ class BlockAnalyzer {
             // so store the current one and create a new one
             prevBlock.toIndex = index
             blockL.append ( prevBlock )
+            
+            // increment Initiator Number for teh user
+            let user = userAnalyzer.giveUser (theName: chat.name )
+            user.initiatorCount += 1
 
             let newBlock = Block(fromIdx: index, user: chat.name)
             prevBlock = newBlock
@@ -54,10 +58,12 @@ class BlockAnalyzer {
             index = index + 1
         }
         
-        //apend the last one
+        //append the last one
         prevBlock.toIndex = index
         blockL.append ( prevBlock )
-        printBlocks()
+        
+        
+       // printBlocks()
     }
     
     func printBlocks () {

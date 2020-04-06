@@ -9,7 +9,71 @@
 import Foundation
 import Zip
 
+
+var userL     : Array <User>      = Array()
+var chatL     : Array <Chat>      = Array()
+var blockL    : Array <Block>     = Array()
+
+var chatFileL : Array <ChatFile>  = Array()
+  
 let fileManager = FileManager.default
+
+let chatAnalyzer  = ChatAnalyzer ()
+let userAnalyzer  = UserAnalyzer()
+let blockAnalyzer = BlockAnalyzer()
+
+extension URL {
+    var isDirectory: Bool {
+        let values = try? resourceValues(forKeys: [.isDirectoryKey])
+        return values?.isDirectory ?? false
+    }
+}
+
+class ChatFile {
+    
+    var name : String
+    var url  : URL
+    var date : Date
+
+    
+    init (theName: String, theUrl: URL, theDate: Date){
+        name  = theName
+        url   = theUrl
+        date  = theDate
+        
+        
+        print (" url : \(url) is directory: \(url.isDirectory)")
+    }
+    
+    func remove () {
+        do {
+            try fileManager.removeItem (at: url)
+            print ("url deleted: \(url)")
+
+            /*
+            let noExtensionUrl = url.deletingPathExtension()                  // http://toto.txt -> http://toto
+            let fileName       = noExtensionUrl.lastPathComponent + ".zip"    // http://toto     -> toto.zip
+            
+
+            let urlBase        = url.deletingLastPathComponent()
+            let urlInbox       = urlBase.appendingPathComponent("Inbox")
+            let urlToDel       = urlInbox.appendingPathComponent(fileName)
+
+            do {
+                try fileManager.removeItem (at: urlToDel)
+                print ("in Box zipped file deleted \(urlToDel)")
+            } catch {
+                print ("cannot Delete InBox zipped file \(urlToDel)")
+            }
+            */
+            
+        } catch {
+            print ("cannot remove url: \(url)")
+        }
+    }
+}
+
+
 
 class Chat {
     
@@ -72,30 +136,155 @@ class Chat {
 
 class ChatAnalyzer {
     
-    var path: URL
+    func printPad ( theString : String, level: Int) {
     
-    init () {
-        let documentsUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
-        path = documentsUrl
+        var pad = "    "
+        for _ in 0...level {
+            pad = pad + "   "
+        }
+        
+        let toPrint = pad + theString
+        print(toPrint)
     }
     
-    func getChat ( theUrl: URL) {
-    
-        chatExtract ( theChatFile: theUrl)
+    func addChatFile ( theChatUrl: URL ) {
+        
         do {
-        try fileManager.removeItem (at: theUrl)
-            print ("url deleted")
+            let attr = try fileManager.attributesOfItem(atPath: theChatUrl.path)
+            let date = attr[FileAttributeKey.creationDate] as! Date
+            let file = theChatUrl.lastPathComponent
+            
+            let chatFile = ChatFile ( theName: file, theUrl: theChatUrl, theDate: date )
+            chatFileL.append ( chatFile )
+        } catch {
+            print ("cannot find date")
         }
-        catch {
-            print ("cannot remove url")
-        }
-
     }
+    
+    
+    func listDocumentsDirectory () {
+           
+        let documentsUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
+        listDirectory (thePathUrl: documentsUrl, level: 0, isInInbox: false)
+    }
+    
+    func listDirectory (thePathUrl: URL, level: Int, isInInbox:Bool ) {
+    
+        printPad (theString : "ls on : \(thePathUrl.lastPathComponent)" , level:level)
+       // var currentDirectory : String = ""
+        
+         do {
+            let items = try fileManager.contentsOfDirectory(at: thePathUrl, includingPropertiesForKeys:nil )
+            
+            for urlFile in items {
+                let file = urlFile.lastPathComponent
+                let url = thePathUrl.appendingPathComponent(file)
+                if (url.isDirectory == true ){
+                   listDirectory (thePathUrl: url, level:level + 1, isInInbox: (file == "Inbox"))
+  
+                } else {
+                    if (isInInbox == true ){
+                        addChatFile (theChatUrl: url)
+                    }
+                   printPad (theString: url.lastPathComponent, level: level+2)
+                }
+           
+            }
+         } catch {
+           print (" cannot access content of Directory \(thePathUrl): \(error.localizedDescription)")
+        }
+    }
+  
+    //---------------------------------------------------------------
+    // func getDirectory
+    //      read the Phone Document directory to set the chatFile List
+    //      while doing so, delete the inbox directory (useless dupplication of received zip file
+
+    func getDirectory () {
+       
+        let documentsUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
+        let pathStr = documentsUrl.path
+        
+        var date: Date
+   
+        do {
+        let items = try fileManager.contentsOfDirectory(atPath: pathStr)
+             for file in items {
+                print (file)
+                let url = documentsUrl.appendingPathComponent(file)
+
+                // special tratment for InBox sub directory
+                // delete its content
+                if (file == "Inbox") {
+                 /*   let inboxPathStr = url.path
+                    do{
+                       let inboxItems = try fileManager.contentsOfDirectory(atPath: inboxPathStr)
+                        for inboxFile in inboxItems {
+                                                       
+                           print ("inBox--> \(inboxFile)")
+                           let urlToDel = url.appendingPathComponent(inboxFile)
+                            // delete the unzipped file
+                            do {
+                              //  try fileManager.removeItem (at: urlToDel)
+                                print ("in Box zipped file deleted \(urlToDel)")
+                            } catch {
+                                print ("cannot Delete InBox zipped file \(urlToDel)")
+                            }
+                        }
+                    }catch{
+                        print ("can t access inbox")
+                    }
+                  */
+                } else {
+                    // Normal case found a file, add it the chatFileL
+                    do {
+                        let attr = try fileManager.attributesOfItem(atPath: url.path)
+                        date = attr[FileAttributeKey.creationDate] as! Date
+                        let chatFile = ChatFile ( theName: file, theUrl: url, theDate: date )
+                        chatFileL.append ( chatFile )
+                    } catch {
+                        print ("cannot find date")
+                    }
+                }
+            }
+        } catch {
+            print ("empty Directory")
+        }
+    }
+    
+    
+    // reset the global list
+    func resetAll () {
+        chatL.removeAll()
+        userL.removeAll()
+        blockL.removeAll()
+    }
+    
+    
+    func getChat ( theUrl: URL) -> Bool {
+    
+        var ret = true
+        resetAll()
+        if (chatAnalyzer.chatExtract (theChatFile: theUrl) == true ){
+                   
+            chatAnalyzer.setTimeDiff ()
+            userAnalyzer.createList  ()
+            
+            blockAnalyzer.createBlockList()
+          //  chatAnalyzer.printChat ()
+                   
+        } else {
+            ret = false
+        }
+        
+        return (ret)
+    }
+    
+    
     //---------------------------------------------------------------
     // func chatExtract
     //      Create a chatList from exported file
     
-    //func chatExtract(theChatFile: String)-> Bool{
     func chatExtract(theChatFile: URL)-> Bool{
 
         var unzipDirectory      : URL
@@ -103,31 +292,35 @@ class ChatAnalyzer {
         var retValue = false
         
         do {
-//if let filePath = Bundle.main.url(forResource: theChatFile, withExtension: "zip"){
-            let filePath = theChatFile
-            if (true){
-               unzipDirectory = try Zip.quickUnzipFile(filePath)
-               do{
-                   directoryPathStr = unzipDirectory.path
-                   let items = try fileManager.contentsOfDirectory(atPath: directoryPathStr)
+            unzipDirectory = try Zip.quickUnzipFile(theChatFile)
+            do{
+                directoryPathStr = unzipDirectory.path
+                let items = try fileManager.contentsOfDirectory(atPath: directoryPathStr)
                 
-                   // loop on items if several files in dir
-                   let pathURL = unzipDirectory.appendingPathComponent(items[0])
-                   do {
-                       let contents = try String(contentsOf:pathURL)
-                       splitContent(theContent:contents)
-                       retValue = true
-                   } catch {
-                  print( "fail to convert to String")
-                   }
+                // loop on items if several files in dir
+                let pathURL = unzipDirectory.appendingPathComponent(items[0])
+                do {
+                    let contents = try String(contentsOf:pathURL)
+                      
+                    // get all content form unzipped file
+                    splitContent(theContent:contents)
+                    
+                    // delete the unzipped file called -chat.txt
+                    do {
+                       try fileManager.removeItem (at: pathURL)
+                       print ("unzipped file deleted: \(pathURL)")
+                    } catch {
+                        print ("cannot Delete Unzipped file")
+                    }
+                    retValue = true
+                  } catch {
+                print( "fail to convert to String")
+                }
                 
-               } catch {
+            } catch {
                    print( "fail to locate directory")
-               }
-                
-            } else {
-                print ("file not found")
             }
+                
         } catch {
             print ("Fail to unzip")
         }
@@ -141,9 +334,11 @@ class ChatAnalyzer {
         for elem in array {
             if elem.count != 0 {
                 // add Chat
-                let (dateStr, date, name, msg) = parseLine (toParse :elem)
-                let chat = Chat (theDateStr: dateStr, theDate: date, theName: name, theMsg: msg)
-                chatL.append (chat)
+                let (valid, dateStr, date, name, msg) = parseLine (toParse :elem)
+                if (valid == true){
+                   let chat = Chat (theDateStr: dateStr, theDate: date, theName: name, theMsg: msg)
+                   chatL.append (chat)
+                }
         
              }
         }
@@ -154,38 +349,41 @@ class ChatAnalyzer {
    // func parseLine
    //      Create a chatList from exported file
 
-    func parseLine (toParse :String) -> (String, Date, String, String){
+    func parseLine (toParse :String) -> (Bool, String, Date, String, String){
        
        // toParse = [<Date>] <name>: <msg>
-       let endDateIndex  = toParse.firstIndex(of: "]")!
-       let dateSubstr    = toParse[...endDateIndex]
+        if let endDateIndex  = toParse.firstIndex(of: "]")  {
+           let dateSubstr   = toParse[...endDateIndex]
+        
+          //Date
+          var dateStr = String (dateSubstr)
+          dateStr     = dateStr.replacingOccurrences(of: "[", with: "")
+          dateStr     = dateStr.replacingOccurrences(of: "]", with: "")
+          dateStr     = dateStr.replacingOccurrences(of: ",", with: "")
+          let date    = realDate(theDate: dateStr)
        
-       //Date
-       var dateStr = String (dateSubstr)
-       dateStr     = dateStr.replacingOccurrences(of: "[", with: "")
-       dateStr     = dateStr.replacingOccurrences(of: "]", with: "")
-       dateStr     = dateStr.replacingOccurrences(of: ",", with: "")
-       let date    = realDate(theDate: dateStr)
-       
-
-       // Rest : Name and Msg
-       let restSubstr   = toParse[endDateIndex...]
-       let rest         = String(restSubstr)
+          // Rest : Name and Msg
+          let restSubstr   = toParse[endDateIndex...]
+          let rest         = String(restSubstr)
       
-       //name
-       let endNameIndex = rest.firstIndex(of: ":")!
-       let nameSubstr   = rest[...endNameIndex]
+          //name
+          if let endNameIndex = rest.firstIndex(of: ":") {
+             let nameSubstr   = rest[...endNameIndex]
        
-       var nameStr      = String (nameSubstr)
-       nameStr          = nameStr.replacingOccurrences(of: "]", with: "")
-       nameStr          = nameStr.replacingOccurrences(of: ":", with: "")
+             var nameStr      = String (nameSubstr)
+             nameStr          = nameStr.replacingOccurrences(of: "]", with: "")
+             nameStr          = nameStr.replacingOccurrences(of: ":", with: "")
 
-       //msg
-       let msgSubstr = rest[endNameIndex...]
-       var msgStr    = String (msgSubstr)
-       msgStr        = msgStr.stringByReplacingFirstOccurrenceOfString(target:":", withString: "")
-       
-       return (dateStr, date, nameStr, msgStr)
+             //msg
+             let msgSubstr = rest[endNameIndex...]
+             var msgStr    = String (msgSubstr)
+             msgStr        = msgStr.stringByReplacingFirstOccurrenceOfString(target:":", withString: "")
+        
+             return (true, dateStr, date, nameStr, msgStr)
+          }
+        }
+        
+        return (false, "", Date(), "", "")
 
    }
    
@@ -225,11 +423,12 @@ class ChatAnalyzer {
             
             subMsg = String( chat.msg.prefix (len))
             
-            if ( chat.timeDiff > timeBetweenBlocks) {
+    /*        if ( chat.timeDiff > timeBetweenBlocks) {
                 print ( "\(index) - elapsed: \(chat.timeDiff) ---<<<<  \(subMsg) ")
             } else {
                 print ( "\(index) - elapsed: \(chat.timeDiff)")
             }
+   */
              index = index + 1
            }
        }

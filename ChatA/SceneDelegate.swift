@@ -49,9 +49,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        if let url = URLContexts.first?.url {
-            // Handle URL
-             chatAnalyzer.getChat (theUrl: url)
+        
+       // ght called when a file.zip selected our App
+       // let navigationController = UIApplication.shared.windows.first!.rootViewController as! UINavigationController
+        let navigationController = window?.rootViewController as! UINavigationController
+        let firstVC = navigationController.viewControllers[0] as! ViewController
+        
+        // Call the first view controller
+        if let newUrl = URLContexts.first?.url {
+              firstVC.newZipArrived ( url: newUrl )
         }
     }
 

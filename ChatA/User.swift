@@ -9,19 +9,21 @@
 import Foundation
 
 class User {
-    var name        : String
-    var msgNumber   : Int
-    //var msgLen      : [Int]
-    var totalLen    : Double
-    var mediaNumber : Int
+    var name           : String
+    var msgNumber      : Int
+    //var msgLen       : [Int]
+    var totalLen       : Double
+    var mediaNumber    : Int
+    var initiatorCount : Int
 
     
     init ( theName:String ) {
-        name        = theName
-        msgNumber   = 1
-      //  msgLen      = [Int]()
-        totalLen    = 0
-        mediaNumber = 0;
+        name            = theName
+        msgNumber       = 1
+      //  msgLen        = [Int]()
+        totalLen        = 0
+        mediaNumber     = 0;
+        initiatorCount  = 0;
     }
 }
 
