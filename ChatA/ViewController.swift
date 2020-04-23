@@ -56,7 +56,7 @@ class ViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         // read directory content to set chatFileL
-      //  chatAnalyzer.getDirectory ()
+        //  chatAnalyzer.getDirectory ()
         
         chatAnalyzer.listDocumentsDirectory ()
 
@@ -65,19 +65,32 @@ class ViewController: UIViewController {
 
     @IBAction func buttonPresse(_ sender: Any) {
         print ("Pressed")
+        /*
         chatFileL.removeAll()
         chatAnalyzer.listDocumentsDirectory ()
+        
+        let pointL = [1,1,1,1,1, 4,5,6,  25,25, 200,200,2002,321,454, 67896]
+        
+        let smallBlock = getKMean (distances:pointL)
+        */
     }
     
     
     
     func newZipArrived ( url: URL ){
-         print ("New Zip")
+         print ("New Zip: \(url)")
 
         chatFileL.removeAll()
         chatAnalyzer.listDocumentsDirectory()
         chatListTableView.reloadData()
         
+    }
+    
+    func renameChatFile ( originalName:String ) -> String {
+        
+        var name = originalName.replacingOccurrences(of: "WhatsApp Chat - ", with: "")
+        name = name.replacingOccurrences(of: ".zip", with: "")
+        return (name)
     }
 }
 
@@ -97,9 +110,9 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate{
         // Cell's members display
         cell!.date!.text = dateStr
         
-        var name = chatFileL[indexPath.row].name.replacingOccurrences(of: "WhatsApp Chat - ", with: "")
-        name = name.replacingOccurrences(of: ".zip", with: "")
-        cell!.label!.text = name
+        //var name = chatFileL[indexPath.row].name.replacingOccurrences(of: "WhatsApp Chat - ", with: "")
+        //name = name.replacingOccurrences(of: ".zip", with: "")
+        cell!.label!.text = renameChatFile (originalName: chatFileL[indexPath.row].name)
         
         return cell!
     }
@@ -129,6 +142,15 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate{
                 chatFileL.remove(at: indexPath.row)                     // remove from the table
                 tableView.deleteRows(at: [indexPath], with: .fade)      // remove entry in tableView
     
+        }
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if  segue.identifier == "detailSegueId" {
+          let destination = segue.destination as? ChatDetailViewController
+          let index = chatListTableView.indexPathForSelectedRow?.row
+          destination!.chatName = renameChatFile (originalName: chatFileL [index!].name)
         }
     }
 }

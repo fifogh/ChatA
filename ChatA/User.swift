@@ -15,15 +15,18 @@ class User {
     var totalLen       : Double
     var mediaNumber    : Int
     var initiatorCount : Int
+    var emojiCount     : Int
+
 
     
     init ( theName:String ) {
-        name            = theName
-        msgNumber       = 1
+        self.name            = theName
+        self.msgNumber       = 1
       //  msgLen        = [Int]()
-        totalLen        = 0
-        mediaNumber     = 0;
-        initiatorCount  = 0;
+        self.totalLen        = 0
+        self.mediaNumber     = 0;
+        self.initiatorCount  = 0;
+        self.emojiCount      = 0;
     }
 }
 
@@ -62,6 +65,7 @@ class UserAnalyzer {
                 user.mediaNumber += 1
             }
             
+            user.emojiCount += chat.giveEmojiCount()
         }
     }
 }

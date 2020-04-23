@@ -14,6 +14,8 @@ var userL     : Array <User>      = Array()
 var chatL     : Array <Chat>      = Array()
 var blockL    : Array <Block>     = Array()
 
+var timeDiffL : Array <Int>       = Array()
+
 var chatFileL : Array <ChatFile>  = Array()
   
 let fileManager = FileManager.default
@@ -45,6 +47,7 @@ class ChatFile {
         print (" url : \(url) is directory: \(url.isDirectory)")
     }
     
+
     func remove () {
         do {
             try fileManager.removeItem (at: url)
@@ -82,6 +85,7 @@ class Chat {
     var name     : String     // member
     var msg      : String     // msg full content
     var timeDiff : Double     // in secs with previous received msg
+    var sameName : Bool       // true is previous name in chat is the same
 
     
     init (theDateStr:String, theDate: Date, theName:String, theMsg: String){
@@ -90,17 +94,48 @@ class Chat {
         name     = theName
         msg      = theMsg
         timeDiff = 0
+        sameName = false
     }
     
+    
+    //---------------------------------------------------------------
+    // func emojiCount
+    //      return how many emojis are in the msg
+    func giveEmojiCount () -> Int {
+    
+        var count = 0
+        for scalar in msg.unicodeScalars {
+
+            switch scalar.value {
+ 
+                case 0x1F600...0x1F64F, // Emoticons
+                     0x1F300...0x1F5FF, // Misc Symbols and Pictographs
+                     0x1F680...0x1F6FF, // Transport and Map
+                     0x2600...0x26FF,   // Misc symbols
+                     0x2700...0x27BF,   // Dingbats
+                     0xFE00...0xFE0F,   // Variation Selectors
+                     0x1F900...0x1F9FF, // Supplemental Symbols and Pictographs
+                     0x1F1E6...0x1F1FF: // Flags
+                    
+                     count = count + 1
+                
+                default:
+                     continue
+            }
+ 
+        }
+        return (count)
+    }
     
     //---------------------------------------------------------------
     // func containMedia
     //      return True is msg contain image or movie (even deleted)
     
     func containMedia () -> Bool {
+        //if ( msg.contains("200e")) {
         if ( msg.contains("\u{200e}")) {
         //if ( msg.contains("\u{1f923}")) {
-            print (msg)
+           // print (msg)
             return (true)
             
             } else {
@@ -130,6 +165,17 @@ class Chat {
      
     return (elapsed)
     }
+    
+    //---------------------------------------------------------------
+    // func subMsg
+    //      return teh first x Char of the msg
+    func subMsg ( len: Int )-> String{
+        
+        let len2 = min ( self.msg.count, len)
+
+        return ( String( self.msg.prefix (len2)))
+    }
+    
     
 }
 
@@ -200,7 +246,7 @@ class ChatAnalyzer {
     //      read the Phone Document directory to set the chatFile List
     //      while doing so, delete the inbox directory (useless dupplication of received zip file
 
-    func getDirectory () {
+/*    func getDirectory () {
        
         let documentsUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
         let pathStr = documentsUrl.path
@@ -251,6 +297,7 @@ class ChatAnalyzer {
             print ("empty Directory")
         }
     }
+ */
     
     
     // reset the global list
@@ -258,6 +305,7 @@ class ChatAnalyzer {
         chatL.removeAll()
         userL.removeAll()
         blockL.removeAll()
+        timeDiffL.removeAll()
     }
     
     
@@ -267,11 +315,11 @@ class ChatAnalyzer {
         resetAll()
         if (chatAnalyzer.chatExtract (theChatFile: theUrl) == true ){
                    
-            chatAnalyzer.setTimeDiff ()
+            chatAnalyzer.setDiffWithPrevious ()
             userAnalyzer.createList  ()
             
             blockAnalyzer.createBlockList()
-          //  chatAnalyzer.printChat ()
+            chatAnalyzer.printChat ()
                    
         } else {
             ret = false
@@ -405,25 +453,29 @@ class ChatAnalyzer {
    
     
     //---------------------------------------------------------------
-    // func setTimeDiff
+    // func setDiffWithPrevious
     //      for each Chat set how many sec after previous chat
 
-    func setTimeDiff (){
+    func setDiffWithPrevious (){
            
            var prevChat = Chat (theDateStr: "01/01/00 00:00:01 AM", theDate:Date(), theName: "", theMsg: "")
            var index = 0
         
-           var subMsg : String
+          // var subMsg : String
  
            for chat in chatL{
-             chat.timeDiff = chat.timeElapsed (fromDateStr: prevChat.dateStr)
-             prevChat = chat
+              chat.timeDiff = chat.timeElapsed (fromDateStr: prevChat.dateStr)
+              chat.sameName = (prevChat.name == chat.name)
+              timeDiffL.append (Int(chat.timeDiff))
             
-            let len = min ( chat.msg.count, 25)
+               prevChat = chat
+ /*
+             
+        //    let len = min ( chat.msg.count, 25)
             
-            subMsg = String( chat.msg.prefix (len))
+      //      subMsg = String( chat.msg.prefix (len))
             
-    /*        if ( chat.timeDiff > timeBetweenBlocks) {
+         if ( chat.timeDiff > timeBetweenBlocks) {
                 print ( "\(index) - elapsed: \(chat.timeDiff) ---<<<<  \(subMsg) ")
             } else {
                 print ( "\(index) - elapsed: \(chat.timeDiff)")
@@ -433,12 +485,18 @@ class ChatAnalyzer {
            }
        }
     
-    
+
     
     func printChat () {
         
         print ("Chat Numnber :")
         print (chatL.count)
+        
+        for elem in chatL{
+            
+            
+            print ("msg: \(elem.date) - \(elem.name) - \(elem.msg)")
+        }
         
         for elem in userL {
                    let str = elem.name + " number: \(elem.msgNumber)" + " total: \(elem.totalLen)" + " mdeiaNumber : \(elem.mediaNumber)"

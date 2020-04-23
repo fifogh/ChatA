@@ -21,6 +21,11 @@
 		A563A59224317FE5005C1291 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = A563A59124317FE5005C1291 /* Zip */; };
 		A5A1CBAD243AB32800E1EA44 /* ChatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A1CBAC243AB32800E1EA44 /* ChatDetailViewController.swift */; };
 		A5A1CBAF243AD81900E1EA44 /* hiclipart.com.png in Resources */ = {isa = PBXBuildFile; fileRef = A5A1CBAE243AD81900E1EA44 /* hiclipart.com.png */; };
+		A5A1CBB1243D565600E1EA44 /* WhatsPsy.png in Resources */ = {isa = PBXBuildFile; fileRef = A5A1CBB0243D565600E1EA44 /* WhatsPsy.png */; };
+		A5A1CBB3243D592200E1EA44 /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A1CBB2243D592200E1EA44 /* Stats.swift */; };
+		A5A1CBB8244406CD00E1EA44 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = A5A1CBB7244406CD00E1EA44 /* SwiftUICharts */; };
+		A5F9A1C6244FDD2900F5BF95 /* ChatDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F9A1C5244FDD2900F5BF95 /* ChatDetailTableViewCell.swift */; };
+		A5F9A1C8245089E000F5BF95 /* sm1.png in Resources */ = {isa = PBXBuildFile; fileRef = A5F9A1C7245089E000F5BF95 /* sm1.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +44,10 @@
 		A563A58E242C1C5C005C1291 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A5A1CBAC243AB32800E1EA44 /* ChatDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewController.swift; sourceTree = "<group>"; };
 		A5A1CBAE243AD81900E1EA44 /* hiclipart.com.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hiclipart.com.png; sourceTree = "<group>"; };
+		A5A1CBB0243D565600E1EA44 /* WhatsPsy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhatsPsy.png; sourceTree = "<group>"; };
+		A5A1CBB2243D592200E1EA44 /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
+		A5F9A1C5244FDD2900F5BF95 /* ChatDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailTableViewCell.swift; sourceTree = "<group>"; };
+		A5F9A1C7245089E000F5BF95 /* sm1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sm1.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +56,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A563A59224317FE5005C1291 /* Zip in Frameworks */,
+				A5A1CBB8244406CD00E1EA44 /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,15 +83,19 @@
 			isa = PBXGroup;
 			children = (
 				A563A5882422C313005C1291 /* Chat.swift */,
-				A5A1CBAC243AB32800E1EA44 /* ChatDetailViewController.swift */,
 				A563A58E242C1C5C005C1291 /* User.swift */,
 				A563A58A242AE188005C1291 /* Blocks.swift */,
 				A563A5762418076D005C1291 /* ViewController.swift */,
 				A563A5722418076D005C1291 /* AppDelegate.swift */,
 				A560E53A2438193A00D74560 /* ChatFileTableViewCell.swift */,
+				A5A1CBAC243AB32800E1EA44 /* ChatDetailViewController.swift */,
+				A5F9A1C5244FDD2900F5BF95 /* ChatDetailTableViewCell.swift */,
 				A563A5742418076D005C1291 /* SceneDelegate.swift */,
+				A5A1CBB2243D592200E1EA44 /* Stats.swift */,
 				A563A5782418076D005C1291 /* Main.storyboard */,
 				A5A1CBAE243AD81900E1EA44 /* hiclipart.com.png */,
+				A5A1CBB0243D565600E1EA44 /* WhatsPsy.png */,
+				A5F9A1C7245089E000F5BF95 /* sm1.png */,
 				A560E53C243820FC00D74560 /* Psychologisticon.png */,
 				A563A57B2418076E005C1291 /* Assets.xcassets */,
 				A563A57D2418076E005C1291 /* LaunchScreen.storyboard */,
@@ -108,6 +122,7 @@
 			name = ChatA;
 			packageProductDependencies = (
 				A563A59124317FE5005C1291 /* Zip */,
+				A5A1CBB7244406CD00E1EA44 /* SwiftUICharts */,
 			);
 			productName = ChatA;
 			productReference = A563A56F2418076D005C1291 /* ChatA.app */;
@@ -139,6 +154,7 @@
 			mainGroup = A563A5662418076D005C1291;
 			packageReferences = (
 				A563A59024317FE5005C1291 /* XCRemoteSwiftPackageReference "Zip" */,
+				A5A1CBB6244406CD00E1EA44 /* XCRemoteSwiftPackageReference "ChartView" */,
 			);
 			productRefGroup = A563A5702418076D005C1291 /* Products */;
 			projectDirPath = "";
@@ -156,7 +172,9 @@
 			files = (
 				A560E53D243820FC00D74560 /* Psychologisticon.png in Resources */,
 				A563A57F2418076E005C1291 /* LaunchScreen.storyboard in Resources */,
+				A5A1CBB1243D565600E1EA44 /* WhatsPsy.png in Resources */,
 				A563A57C2418076E005C1291 /* Assets.xcassets in Resources */,
+				A5F9A1C8245089E000F5BF95 /* sm1.png in Resources */,
 				A563A57A2418076D005C1291 /* Main.storyboard in Resources */,
 				A5A1CBAF243AD81900E1EA44 /* hiclipart.com.png in Resources */,
 			);
@@ -170,12 +188,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A560E53B2438193A00D74560 /* ChatFileTableViewCell.swift in Sources */,
+				A5A1CBB3243D592200E1EA44 /* Stats.swift in Sources */,
 				A563A5772418076D005C1291 /* ViewController.swift in Sources */,
 				A563A5892422C313005C1291 /* Chat.swift in Sources */,
 				A5A1CBAD243AB32800E1EA44 /* ChatDetailViewController.swift in Sources */,
 				A563A58B242AE188005C1291 /* Blocks.swift in Sources */,
 				A563A5732418076D005C1291 /* AppDelegate.swift in Sources */,
 				A563A5752418076D005C1291 /* SceneDelegate.swift in Sources */,
+				A5F9A1C6244FDD2900F5BF95 /* ChatDetailTableViewCell.swift in Sources */,
 				A563A58F242C1C5C005C1291 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -384,6 +404,14 @@
 				kind = branch;
 			};
 		};
+		A5A1CBB6244406CD00E1EA44 /* XCRemoteSwiftPackageReference "ChartView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppPear/ChartView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -391,6 +419,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A563A59024317FE5005C1291 /* XCRemoteSwiftPackageReference "Zip" */;
 			productName = Zip;
+		};
+		A5A1CBB7244406CD00E1EA44 /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A5A1CBB6244406CD00E1EA44 /* XCRemoteSwiftPackageReference "ChartView" */;
+			productName = SwiftUICharts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
